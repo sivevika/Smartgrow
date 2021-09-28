@@ -3,10 +3,12 @@ const cors = require('cors');
 const path = require('path');
 var mqtt = require('mqtt');
 const app = express();
+const fs = require ('fs');
+
 
 var topic ='test'
 var topic_1 = 'test1'
-var message = 'Hello World nodejs'
+var message_1 = 'Hello World nodejs'
 
 var client = mqtt.connect('mqtt://165.22.226.54',{
 
@@ -15,18 +17,23 @@ password: 'Rahi@4197'
 
 });
 
-//var client = mqtt.connect();
+
 
 client.subscribe(topic)
-client.on('message', function (topic, message) {
-  console.log(message)
-})
+
+  client.on('message', (topic, payload) => {
+  console.log('Received Message:', topic, payload.toString())
+  })
+
+  
+
+
 
 client.on('connect', () => {
 setInterval(()=>{
 
-  client.publish(topic_1, message);
-  console.log('Message sent!', message)
+  client.publish(topic_1, message_1);
+  console.log('Message sent!', message_1)
 }, 5000)
 
 });
