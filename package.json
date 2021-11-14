@@ -9,16 +9,20 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
+    
   },
   "author": "Brad Traversy",
   "license": "MIT",
   "devDependencies": {
+    "browserify": "^17.0.0",
     "nodemon": "^1.14.6"
   },
   "dependencies": {
+    "aedes": "^0.46.1",
     "concurrently": "^3.5.1",
     "cors": "^2.8.5",
     "express": "^4.16.2",
-    "mqtt": "^4.2.8"
+    "mqtt": "^4.2.8",
+    "ws": "^8.2.3"
   }
 }

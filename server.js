@@ -1,10 +1,28 @@
 const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const webSocket = require('ws');
+const wss = new webSocket.Server({server:server});
 const cors = require('cors');
 const path = require('path');
 var mqtt = require('mqtt');
-const app = express();
-const fs = require ('fs');
 
+
+
+wss.on('connection', function connection(ws){
+console.log('A new client is connected');
+ws.send('Welcome new client');
+
+ws.on('message',function income(message){
+console.log('recieved %s',message);
+ws.send ('Got your message, it is:'+ message);
+ });
+
+});
+
+
+app.get('/', (req, res) => res.send ('Hello World'))
+/*
 
 var topic ='test'
 var topic_1 = 'test1'
@@ -21,11 +39,19 @@ password: 'Rahi@4197'
 
 client.subscribe(topic)
 
-  client.on('message', (topic, payload) => {
-  console.log('Received Message:', topic, payload.toString())
+  
+  app.get("/get-data", (req, res)=>{
+    client.on('message', (topic, payload) => {
+ 
+      console.log('Received Message:', topic, payload.toString())
+      res.send(payload);
+      })
+    
   })
 
-  
+  server.on('connection', (stream) => {
+    console.log('someone connected!');
+  });
 
 
 
@@ -39,24 +65,20 @@ setInterval(()=>{
 });
 
 
-app.get('/',(req, res)=>{
-res.sendFile(path.join(__dirname, 'public', 'index.html'));
-
-});
 
 
+/*app.get ('/api/data',(req,res) =>{
+
+  client.on('message', (topic, payload) => {
+ 
+  console.log('Received Message:', topic, payload.toString())
+
+  res.json (payload.toString())
+  })
+});*/
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
+server.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
 
 
-/*app.get('/api/customers', cors(), (req, res) => {
-  const customers = [
-    {id: 1, firstName: 'Sive', lastName: 'Doe'},
-    {id: 2, firstName: 'Brad', lastName: 'Traversy'},
-    {id: 3, firstName: 'Mary', lastName: 'Swanson'},
-  ];
-
-  res.json(customers);
-});*/
 
