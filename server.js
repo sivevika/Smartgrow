@@ -1,13 +1,48 @@
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
-const webSocket = require('ws');
-const wss = new webSocket.Server({server:server});
+//const server = require('http').createServer(app);
+//const webSocket = require('ws');
+//const wss = new webSocket.Server({server:server});
 const cors = require('cors');
 const path = require('path');
 var mqtt = require('mqtt');
+const server = require ('http').createServer();
+
+var topic ='test'
+var topic_1 = 'test1'
+var message_1 = 'Hello World nodejs'
+
+var client = mqtt.connect('mqtt://165.22.226.54',{
+
+username:'Rahi@4197',
+password: 'Rahi@4197'
+
+});
+
+client.subscribe(topic)
 
 
+const io = require ('socket.io')(server, {
+  transports: ['websocket', 'polling']
+});
+
+io.on('connection', client => {
+setInterval(() => {
+
+  client.on('message', (topic, payload) => {
+ 
+    console.log('Received Message:', topic, payload.toString())
+    res.send(payload);
+    client.emit ('cpu', payload); 
+  
+    });
+
+    //client.emit ('cpu', payload); 
+  
+}, 1000);
+});
+
+/*
 
 wss.on('connection', function connection(ws){
 console.log('A new client is connected');
@@ -22,7 +57,7 @@ ws.send ('Got your message, it is:'+ message);
 
 
 app.get('/', (req, res) => res.send ('Hello World'))
-/*
+
 
 var topic ='test'
 var topic_1 = 'test1'

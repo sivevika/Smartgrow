@@ -9,7 +9,6 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
-    
   },
   "author": "Brad Traversy",
   "license": "MIT",
@@ -23,6 +22,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.2",
     "mqtt": "^4.2.8",
+    "socket.io": "^4.4.0",
     "ws": "^8.2.3"
   }
 }
