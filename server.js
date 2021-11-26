@@ -21,6 +21,14 @@ password: 'Rahi@4197'
 
 client.subscribe(topic)
 
+client.on('message', (topic, payload) => {
+ 
+  console.log('Received Message:', topic, payload.toString())
+  //res.send(payload);
+  //client.emit ('cpu', payload); 
+
+  });
+
 
 const io = require ('socket.io')(server, {
   transports: ['websocket', 'polling']
@@ -29,13 +37,13 @@ const io = require ('socket.io')(server, {
 io.on('connection', client => {
 setInterval(() => {
 
-  client.on('message', (topic, payload) => {
+  /*client.on('message', (topic, payload) => {
  
     console.log('Received Message:', topic, payload.toString())
     res.send(payload);
     client.emit ('cpu', payload); 
   
-    });
+    });*/
 
     //client.emit ('cpu', payload); 
   
